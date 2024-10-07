@@ -3,15 +3,31 @@ session_start();
 include 'includes/config.php';
 include 'includes/functions.php';
 
+$error = null; // Initialize error variable
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // ... (Existing login code) ...
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Secure login implementation using prepared statements (replace with your actual logic)
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?"); // Assuming you have a 'users' table
+        $stmt->execute([$username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id']; // Store user ID in session
+            $_SESSION['username'] = $user['username'];
+            header("Location: dashboard_user.php");
+            exit;
+        } else {
+            $error = "Invalid username or password.";
+        }
+    } catch (PDOException $e) {
+        $error = "Database error: " . $e->getMessage();
+    }
 }
 
-// Display logout message if it exists
-if (isset($_SESSION['logout_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['logout_message'] . '</div>';
-    unset($_SESSION['logout_message']); // Remove the message after displaying it
-}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +39,8 @@ if (isset($_SESSION['logout_message'])) {
 <body>
     <div class="container">
         <h1>Login</h1>
-        <?php if (isset($error)): ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+        <?php if ($error): ?>
+            <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
         <form method="post">
             <div class="form-group">
