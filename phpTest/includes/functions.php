@@ -1,17 +1,14 @@
 <?php
 function sanitizeInput($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
+    //This function is now largely redundant due to prepared statements.  Consider removing it.
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
-function escapeSQL($conn, $data) {
-    return mysqli_real_escape_string($conn, $data);
-}
 
-function validateUsername($username) {
-    global $conn;
+function validateUsername($username, $conn) {
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();

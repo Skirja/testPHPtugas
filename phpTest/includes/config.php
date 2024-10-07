@@ -1,8 +1,9 @@
 <?php
-$db_host = "localhost";
-$db_user = "root";
-$db_pass = ""; // Ganti dengan password MySQL Anda
-$db_name = "phpTest_db";
+//Example using environment variables.  Adapt to your environment.
+$db_host = getenv('DB_HOST') ?: 'localhost';
+$db_user = getenv('DB_USER') ?: 'root';
+$db_pass = getenv('DB_PASS') ?: ''; // Replace with a more secure method in production
+$db_name = getenv('DB_NAME') ?: 'phpTest_db';
 
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
