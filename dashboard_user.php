@@ -19,7 +19,7 @@ if (!isset($_SESSION["user_id"])) {
     <div class="container">
         <?php echo "<p>DEBUG: Session ID on dashboard: " . session_id() . "</p>"; ?>
         <h1>Selamat datang, <?php echo htmlspecialchars($_SESSION["username"]); ?>!</h1>
-        <a href="logout.php" class="btn btn-danger">Logout</a>
+        <button type="button" onclick="window.location.href='logout.php'" class="btn btn-danger" title="Klik untuk logout">Logout</button>
         <p id="logout_message"></p>
         <button onclick="showSnakeGame()">Mainkan Snake</button>
 
