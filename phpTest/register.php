@@ -5,6 +5,7 @@ include 'includes/functions.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $role = "user"; // Declare $role variable
 
     if (empty($username) || empty($password)) {
         $error = "Username and password are required.";
@@ -13,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $hashedPassword, "user");
+        $stmt->bind_param("sss", $username, $hashedPassword, $role); // Use $role variable
         if ($stmt->execute()) {
             header("Location: login.php");
             exit();
