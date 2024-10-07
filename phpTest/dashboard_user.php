@@ -28,6 +28,7 @@ if (!isset($_SESSION["user_id"])) {
                 document.getElementById('snakeGameFrame').style.display = 'block';
             }
         </script>
+        <a href="logout.php">Logout</a>
     </div>
 </body>
 </html>
