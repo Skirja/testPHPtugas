@@ -6,6 +6,10 @@ function sanitizeInput($data) {
   return $data;
 }
 
+function escapeSQL($conn, $data) {
+    return mysqli_real_escape_string($conn, $data);
+}
+
 function validateUsername($username) {
     global $conn;
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");

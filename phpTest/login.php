@@ -4,8 +4,8 @@ include 'includes/config.php';
 include 'includes/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = sanitizeInput($_POST["username"]);
-    $password = sanitizeInput($_POST["password"]);
+    $username = escapeSQL($conn, $_POST["username"]);
+    $password = $_POST["password"];
 
     $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);

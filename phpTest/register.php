@@ -3,8 +3,8 @@ include 'includes/config.php';
 include 'includes/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = sanitizeInput($_POST["username"]);
-    $password = sanitizeInput($_POST["password"]);
+    $username = escapeSQL($conn, $_POST["username"]);
+    $password = $_POST["password"];
 
     if (empty($username) || empty($password)) {
         $error = "Username dan password harus diisi.";
@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Username sudah terdaftar.";
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-        $stmt->bind_param("ss", $username, $hashedPassword);
+        $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $hashedPassword, "user"); //default role is user
         if ($stmt->execute()) {
             header("Location: login.php");
             exit();
