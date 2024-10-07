@@ -32,9 +32,18 @@ if (!isset($_SESSION["user_id"])) {
             }
             document.addEventListener('DOMContentLoaded', function() {
                 fetch('logout_check.php')
-                    .then(response => response.text())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
                     .then(message => {
                         document.getElementById('logout_message').textContent = message;
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                        document.getElementById('logout_message').textContent = "Error fetching logout message.";
                     });
             });
         </script>
