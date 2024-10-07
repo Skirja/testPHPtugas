@@ -1,11 +1,14 @@
 <?php
 session_start();
-if (!isset($_SESSION["user_id"]) || $_SESSION["role"] != "user") {
+include 'includes/config.php';
+include 'includes/functions.php';
+
+if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,9 +17,18 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] != "user") {
 </head>
 <body>
     <div class="container">
-        <h1>Selamat datang, <?php echo $_SESSION["username"]; ?>! (User)</h1>
-        <p>Ini adalah dashboard user.</p>
-        <a href="logout.php" class="btn btn-danger">Logout</a>
+        <h1>Selamat datang, <?php echo $_SESSION["username"]; ?>!</h1>
+        <button onclick="showSnakeGame()">Mainkan Snake</button>
+
+        <iframe id="snakeGameFrame" src="" style="display:none; width:400px; height:400px;"></iframe>
+
+        <script>
+            function showSnakeGame() {
+                document.getElementById('snakeGameFrame').src = 'snake.html';
+                document.getElementById('snakeGameFrame').style.display = 'block';
+            }
+        </script>
     </div>
 </body>
 </html>
+
