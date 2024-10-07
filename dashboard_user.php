@@ -1,16 +1,20 @@
 <?php
 // ... kode Anda yang sudah ada ...
 
-// Tambahkan kode ini di tempat yang Anda inginkan tombol logout muncul
-?>
-<form action="logout.php" method="post">
-    <button type="submit">Logout</button>
-</form>
+session_start(); // Pastikan sesi dimulai
 
-<?php if(isset($_SESSION['username'])): ?>
+if (isset($_SESSION['username'])) {
+    ?>
     <p>Welcome, <?php echo $_SESSION['username']; ?>!</p>
-<?php endif; ?>
+    <form action="logout.php" method="post">
+        <button type="submit" name="logout">Logout</button>
+    </form>
+    <?php
+} else {
+    // Redirect ke halaman login jika pengguna belum login
+    header("Location: login.php");
+    exit;
+}
 
-<?php
 // ... sisa kode Anda ...
 ?>
