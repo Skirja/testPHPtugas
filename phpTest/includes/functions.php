@@ -1,13 +1,4 @@
 <?php
-function sanitizeInput($data) {
-    //This function is now largely redundant due to prepared statements.  Consider removing it.
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-
 function validateUsername($username, $conn) {
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
     if (!$stmt) {
@@ -23,5 +14,9 @@ function validateUsername($username, $conn) {
     $stmt->store_result();
     $stmt->close();
     return $stmt->num_rows == 0;
+}
+
+function escapeSQL($conn, $data) {
+    return mysqli_real_escape_string($conn, $data);
 }
 ?>
