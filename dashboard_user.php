@@ -7,6 +7,10 @@
     <button type="submit">Logout</button>
 </form>
 
+<?php if(isset($_SESSION['username'])): ?>
+    <p>Welcome, <?php echo $_SESSION['username']; ?>!</p>
+<?php endif; ?>
+
 <?php
 // ... sisa kode Anda ...
 ?>
